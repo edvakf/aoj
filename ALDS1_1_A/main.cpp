@@ -8,6 +8,11 @@
 
 using namespace std;
 
+void output(vector<int> nums) {
+  copy(nums.begin(), nums.end()-1, ostream_iterator<int>(cout, " "));
+  cout << nums.back() << endl;
+}
+
 int main(int argc, char** argv) {
   vector<int> nums;
 
@@ -24,8 +29,7 @@ int main(int argc, char** argv) {
 
   //copy(istream_iterator<int>(cin), istream_iterator<int>(), back_inserter(nums));
 
-  copy(nums.begin(), nums.end()-1, ostream_iterator<int>(cout, " "));
-  cout << nums.back() << endl;
+  output(nums);
 
   for(int i = 1; i < (int)nums.size(); ++i) {
     int v = nums[i];
@@ -36,9 +40,9 @@ int main(int argc, char** argv) {
     }
     nums[j+1] = v;
 
-    copy(nums.begin(), nums.end()-1, ostream_iterator<int>(cout, " "));
-    cout << nums.back() << endl;
+    output(nums);
   }
 
   return 0;
 }
+
