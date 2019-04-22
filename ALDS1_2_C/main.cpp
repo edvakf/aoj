@@ -86,7 +86,7 @@ void printStability(vector<Card> original, vector<Card> sorted) {
   if (isStable(original, sorted)) {
     cout << "Stable" << endl;
   } else {
-    cout << "Not Stable" << endl;
+    cout << "Not stable" << endl;
   }
 }
 
