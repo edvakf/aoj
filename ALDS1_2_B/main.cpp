@@ -4,21 +4,21 @@
 
 using namespace std;
 
-int selectionSort(vector<int> &nums) {
+int selectionSort(vector<int> &A) {
   int swapcount = 0;
 
-  for (size_t i = 0; i < nums.size() - 1; i++) {
+  for (size_t i = 0; i < A.size() - 1; i++) {
     size_t minj = i;
-    for (size_t j = i + 1; j < nums.size(); j++) {
-      if (nums[j] < nums[minj]) {
+    for (size_t j = i + 1; j < A.size(); j++) {
+      if (A[j] < A[minj]) {
         minj = j;
       }
     }
     if (minj != i) {
       // cout << "swap " << nums[i] << " and " << nums[minj] << endl;
-      int tmp = nums[minj];
-      nums[minj] = nums[i];
-      nums[i] = tmp;
+      int tmp = A[minj];
+      A[minj] = A[i];
+      A[i] = tmp;
       swapcount++;
     }
   }
