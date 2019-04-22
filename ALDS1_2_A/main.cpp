@@ -30,13 +30,17 @@ int main(int argc, char** argv) {
 
   int swapcount = 0;
 
-  for (size_t i = 0; i < nums.size(); ++i) {
-    for (size_t j = nums.size() - 1; j > i; --j) {
+  bool flag = true;
+
+  while (flag) {
+    flag = false;
+    for (size_t j = nums.size() - 1; j > 0; --j) {
       if (nums[j] < nums[j-1]) {
         int tmp = nums[j];
         nums[j] = nums[j-1];
         nums[j-1] = tmp;
         swapcount++;
+        flag = true;
       }
     }
   }
