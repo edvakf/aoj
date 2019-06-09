@@ -117,4 +117,5 @@ int main(int argc, char *argv[]) {
   }
 
   l->printAll();
+  delete l;
 }
