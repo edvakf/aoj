@@ -8,24 +8,24 @@ struct ListItem {
 };
 
 class List {
-  ListItem *zero;
+  ListItem *nil;
 
  public:
   List() {
-    zero = new ListItem;
-    zero->next = zero;
-    zero->prev = zero;
+    nil = new ListItem;
+    nil->next = nil;
+    nil->prev = nil;
   }
 
-  ~List() { delete zero; }
+  ~List() { delete nil; }
 
   void insert(int key) {
     // printf("insert %d\n", key);
     ListItem *item = new ListItem;
     item->key = key;
-    item->prev = zero;
-    item->next = zero->next;
-    zero->next = item;
+    item->prev = nil;
+    item->next = nil->next;
+    nil->next = item;
     item->next->prev = item;
     // printAll();
     // printf("\n");
@@ -33,8 +33,8 @@ class List {
 
   void del(int key) {
     // printf("delete %d\n", key);
-    ListItem *item = zero->next;
-    while (item != zero) {
+    ListItem *item = nil->next;
+    while (item != nil) {
       if (item->key == key) {
         // connect item->prev and item->next
         item->prev->next = item->next;
@@ -50,8 +50,8 @@ class List {
 
   void deleteFirst() {
     // printf("deleteFirst\n");
-    ListItem *item = zero->next;
-    if (item != zero) {
+    ListItem *item = nil->next;
+    if (item != nil) {
       item->next->prev = item->prev;
       item->prev->next = item->next;
       delete item;
@@ -62,8 +62,8 @@ class List {
 
   void deleteLast() {
     // printf("deleteLast\n");
-    ListItem *item = zero->prev;
-    if (item != zero) {
+    ListItem *item = nil->prev;
+    if (item != nil) {
       item->next->prev = item->prev;
       item->prev->next = item->next;
       delete item;
@@ -74,19 +74,19 @@ class List {
 
   void printAll() {
     // printf("printAll\n");
-    ListItem *item = zero->next;
+    ListItem *item = nil->next;
     // printf("%p\n", beforeFirst);
     // printf("%p\n", item);
     // printf("%p\n", afterLast);
 
-    if (item == zero) {
+    if (item == nil) {
       return;
     }
     printf("%d", item->key);
 
-    while (zero != (item = item->next)) {
+    while (nil != (item = item->next)) {
       printf(" %d", item->key);
-      // printf("%d item:%p prev:%p next:%p [zero:%p]\n", item->key, item, item->prev, item->next, zero);
+      // printf("%d item:%p prev:%p next:%p [nil:%p]\n", item->key, item, item->prev, item->next, nil);
       // item = item->next;
     }
     printf("\n");
