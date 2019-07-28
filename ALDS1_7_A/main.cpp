@@ -1,63 +1,76 @@
-#include <cstdio>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
-struct Node {
-    // int id;
-    int degree;
-    int *children;
-    int parent;
+#define Nil -1
 
-    Node() {
-        parent = -1; // default value
-    }
+struct Node {
+  int parent;
+  int left_child;
+  int right_sibling;
 };
 
 int main() {
-    int N; // number of nodes
-    scanf("%d", &N);
+  int N;  // number of nodes
+  cin >> N;
 
-    Node nodes[N];
+  Node nodes[N];
 
-    for (int i = 0; i < N; i++) {
-        int id, degree;
-        scanf("%d %d", &id, &degree);
-        int *children = (int *)malloc(sizeof(int) * degree);
-        for (int d = 0; d < degree; d++) {
-            scanf("%d", &children[d]);
-            nodes[children[d]].parent = id;
-        }
-        nodes[id].degree = degree;
-        nodes[id].children = children;
+  for (int i = 0; i < N; i++) {
+    nodes[i].parent = Nil;
+    nodes[i].left_child = Nil;
+    nodes[i].right_sibling = Nil;
+  }
+
+  for (int i = 0; i < N; i++) {
+    int parent, degree;
+    cin >> parent >> degree;
+    int prev_child;
+    for (int d = 0; d < degree; d++) {
+      int child;
+      cin >> child;
+      nodes[child].parent = parent;
+      if (d == 0) {
+        nodes[parent].left_child = child;
+      } else {
+        nodes[prev_child].right_sibling = child;
+      }
+      prev_child = child;
     }
+  }
 
-    for (int i = 0; i < N; i++) {
-        int depth = 0;
-        Node node = nodes[i];
-        while (1) {
-            if (node.parent == -1) {
-                break;
-            } else {
-                node = nodes[node.parent];
-                depth++;
-            }
-        }
-        printf("node %d: parent = %d, depth = %d, ", i, nodes[i].parent, depth);
-        if (nodes[i].parent == -1) {
-            printf("root");
-        } else if (nodes[i].degree == 0) {
-            printf("leaf");
-        } else {
-            printf("internal node");
-        }
-        printf(", [");
-        for (int d = 0; d < nodes[i].degree; d++) {
-            printf("%d", nodes[i].children[d]);
-            if (d != nodes[i].degree - 1) {
-                printf(", ");
-            }
-        }
-        printf("]\n");
+  int depths[N];
+  for (int i = 0; i < N; i++) {
+    int depth = 0;
+    int id = i;
+    while (nodes[id].parent != Nil) {
+      depth++;
+      id = nodes[id].parent;
     }
+    depths[i] = depth;
+  }
+
+  for (int i = 0; i < N; i++) {
+    cout << "node " << i << ": parent = " << nodes[i].parent << ", depth = " << depths[i] << ", ";
+    if (nodes[i].parent == Nil) {
+      cout << "root";
+    } else if (nodes[i].left_child == Nil) {
+      cout << "leaf";
+    } else {
+      cout << "internal node";
+    }
+    cout << ", [";
+    int child = nodes[i].left_child;
+    bool first = true;
+    while (child != Nil) {
+      if (!first) {
+        cout << ", ";
+      }
+      first = false;
+      cout << child;
+      child = nodes[child].right_sibling;
+    }
+    cout << "]" << endl;
+  }
 }
