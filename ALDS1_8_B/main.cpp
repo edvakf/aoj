@@ -42,18 +42,18 @@ void insert(int k) {
   }
 }
 
-bool find(int k) {
+Node *find(int k) {
   Node *x = root;
   while (x != NIL) {
     if (k == x->key) {
-      return true;
+      return x;
     } else if (k < x->key) {
       x = x->left;
     } else {
       x = x->right;
     }
   }
-  return false;
+  return NIL;
 }
 
 void inorder(Node *u) {
@@ -82,7 +82,7 @@ int main() {
       insert(x);
     } else if (com == "find") {
       scanf("%d", &x);
-      if (find(x)) {
+      if (find(x) != NIL) {
         printf("yes\n");
       } else {
         printf("no\n");
