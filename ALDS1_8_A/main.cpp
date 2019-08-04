@@ -1,84 +1,78 @@
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 struct Node {
-  int v;
-  int l;
-  int r;
-  int p;
+  int key;
+  Node *right, *left, *parent;
 };
 
-#define N 500000
-#define Nil -1
+Node *root, *NIL;
 
-void insert(Node nodes[], int z) {
-  if (z == 0) {
-    return;
-  }
-  int y = Nil;  // parent of x
-  int x = 0;    // root
-  while (x != Nil) {
+void insert(int k) {
+  Node *y = NIL;
+  Node *x = root;
+  Node *z;
+
+  z = (Node *)malloc(sizeof(Node));
+  z->key = k;
+  z->left = NIL;
+  z->right = NIL;
+
+  while (x != NIL) {
     y = x;
-    if (nodes[z].v < nodes[x].v) {
-      x = nodes[x].l;
+    if (z->key < x->key) {
+      x = x->left;
     } else {
-      x = nodes[x].r;
+      x = x->right;
     }
   }
-  nodes[z].p = y;
-
-  if (y == Nil) {  // nodes is an empty tree
-
-  } else if (nodes[z].v < nodes[y].v) {
-    nodes[y].l = z;
+  z->parent = y;
+  if (y == NIL) {
+    root = z;
   } else {
-    nodes[y].r = z;
+    if (z->key < y->key) {
+      y->left = z;
+    } else {
+      y->right = z;
+    }
   }
 }
 
-void printInorder(Node nodes[], int n) {
-  if (n == Nil) return;
-  printInorder(nodes, nodes[n].l);
-  cout << " " << nodes[n].v;
-  printInorder(nodes, nodes[n].r);
+void inorder(Node *u) {
+  if (u == NIL) return;
+  inorder(u->left);
+  printf(" %d", u->key);
+  inorder(u->right);
 }
-
-void printPreorder(Node nodes[], int n) {
-  if (n == Nil) return;
-  cout << " " << nodes[n].v;
-  printPreorder(nodes, nodes[n].l);
-  printPreorder(nodes, nodes[n].r);
-}
-
-void print(Node nodes[]) {
-  printInorder(nodes, 0);
-  cout << endl;
-  printPreorder(nodes, 0);
-  cout << endl;
+void preorder(Node *u) {
+  if (u == NIL) return;
+  printf(" %d", u->key);
+  preorder(u->left);
+  preorder(u->right);
 }
 
 int main() {
-  Node nodes[N];
-  for (int i = 0; i < N; i++) {
-    nodes[i].l = Nil;
-    nodes[i].r = Nil;
-    nodes[i].p = Nil;
-  }
+  int n, i, x;
+  string com;
 
-  int L;
-  cin >> L;
-  int n = 0;
-  for (int i = 0; i < L; i++) {
-    string cmd;
-    cin >> cmd;
-    if (cmd[0] == 'i') {
-      cin >> nodes[n].v;
-      if (n != 0) insert(nodes, n);
-      n++;
-    } else if (cmd[0] == 'p') {
-      if (n != 0) print(nodes);
+  scanf("%d", &n);
+
+  for (i = 0; i < n; i++) {
+    cin >> com;
+    if (com == "insert") {
+      scanf("%d", &x);
+      insert(x);
+    } else if (com == "print") {
+      inorder(root);
+      printf("\n");
+      preorder(root);
+      printf("\n");
     }
   }
+
+  return 0;
 }
